@@ -1,0 +1,10 @@
+{
+  "name": "Playwright Environment",
+  "image": "mcr.microsoft.com/playwright:v1.44.0-jammy",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-playwright.playwright"]
+    }
+  },
+  "postCreateCommand": "npm install"
+}

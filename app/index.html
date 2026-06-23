@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TesteLab</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0f1117;
+        --surface: #1a1d27;
+        --border: #2a2d3e;
+        --accent: #6c63ff;
+        --accent-h: #8b83ff;
+        --danger: #ff4d6a;
+        --success: #00c896;
+        --text: #e8e9f0;
+        --muted: #7b7f9e;
+        --radius: 10px;
+        --font: "Segoe UI", system-ui, sans-serif;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      /* ---------- layout ---------- */
+      .shell {
+        width: 100%;
+        max-width: 420px;
+      }
+
+      .brand {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .brand-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--accent);
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        font-size: 18px;
+      }
+      .brand h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+      }
+      .brand p {
+        color: var(--muted);
+        font-size: 0.85rem;
+        margin-top: 4px;
+      }
+
+      /* ---------- card ---------- */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 32px;
+      }
+
+      /* ---------- tabs ---------- */
+      .tabs {
+        display: flex;
+        gap: 4px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 4px;
+        margin-bottom: 28px;
+      }
+      .tab-btn {
+        flex: 1;
+        padding: 9px;
+        border: none;
+        border-radius: 7px;
+        background: transparent;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .tab-btn.active {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      /* ---------- forms ---------- */
+      .form-panel {
+        display: none;
+      }
+      .form-panel.active {
+        display: block;
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+      label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+      }
+      input {
+        width: 100%;
+        padding: 11px 14px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        color: var(--text);
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      input:focus {
+        border-color: var(--accent);
+      }
+
+      .hint {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 5px;
+      }
+
+      /* ---------- button ---------- */
+      .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: var(--radius);
+        background: var(--accent);
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-top: 4px;
+      }
+      .btn:hover {
+        background: var(--accent-h);
+      }
+
+      /* ---------- feedback ---------- */
+      .feedback {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: var(--radius);
+        font-size: 0.88rem;
+        font-weight: 500;
+        margin-top: 16px;
+        border: 1px solid transparent;
+      }
+      .feedback.show {
+        display: flex;
+      }
+      .feedback.success {
+        background: #00c89615;
+        border-color: #00c89640;
+        color: var(--success);
+      }
+      .feedback.error {
+        background: #ff4d6a15;
+        border-color: #ff4d6a40;
+        color: var(--danger);
+      }
+
+      /* ---------- dashboard ---------- */
+      #dashboard {
+        display: none;
+        text-align: center;
+      }
+      #dashboard.show {
+        display: block;
+      }
+      .dash-icon {
+        font-size: 48px;
+        margin-bottom: 12px;
+      }
+      #dashboard h2 {
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+      }
+      #dashboard p {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 24px;
+      }
+      .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 10px;
+        border-radius: var(--radius);
+        width: 100%;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+      }
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--text);
+      }
+
+      /* ---------- rules (senha) ---------- */
+      .rules {
+        margin-top: 6px;
+      }
+      .rule {
+        font-size: 0.78rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 3px;
+        transition: color 0.2s;
+      }
+      .rule.ok {
+        color: var(--success);
+      }
+      .rule-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+        flex-shrink: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="brand">
+        <div class="brand-logo">
+          <div class="brand-icon">🧪</div>
+          <h1>TesteLab</h1>
+        </div>
+        <p>Plataforma de treino para testes E2E</p>
+      </div>
+
+      <div class="card" id="auth-card">
+        <!-- tabs -->
+        <div class="tabs" role="tablist">
+          <button
+            class="tab-btn active"
+            data-tab="login"
+            data-testid="tab-login"
+            role="tab"
+            aria-selected="true"
+            id="tab-login"
+          >
+            Entrar
+          </button>
+          <button
+            class="tab-btn"
+            data-tab="register"
+            data-testid="tab-register"
+            role="tab"
+            aria-selected="false"
+            id="tab-register"
+          >
+            Criar conta
+          </button>
+        </div>
+
+        <!-- ===== LOGIN ===== -->
+        <div class="form-panel active" id="panel-login" role="tabpanel">
+          <div class="form-group">
+            <label for="login-email">E-mail</label>
+            <input
+              type="email"
+              id="login-email"
+              data-testid="login-email"
+              placeholder="seu@email.com"
+              autocomplete="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="login-password">Senha</label>
+            <input
+              type="password"
+              id="login-password"
+              data-testid="login-password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            />
+          </div>
+          <button class="btn" id="btn-login" data-testid="btn-login">
+            Entrar
+          </button>
+          <div
+            class="feedback"
+            id="login-feedback"
+            data-testid="login-feedback"
+            role="alert"
+          ></div>
+        </div>
+
+        <!-- ===== CADASTRO ===== -->
+        <div class="form-panel" id="panel-register" role="tabpanel">
+          <div class="form-group">
+            <label for="reg-email">E-mail</label>
+            <input
+              type="email"
+              id="reg-email"
+              data-testid="reg-email"
+              placeholder="seu@email.com"
+              autocomplete="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Senha</label>
+            <input
+              type="password"
+              id="reg-password"
+              data-testid="reg-password"
+              placeholder="Mínimo 8 caracteres"
+              autocomplete="new-password"
+            />
+            <div class="rules">
+              <div class="rule" id="rule-len">
+                <span class="rule-dot"></span>Mínimo 8 caracteres
+              </div>
+              <div class="rule" id="rule-num">
+                <span class="rule-dot"></span>Pelo menos 1 número
+              </div>
+              <div class="rule" id="rule-upper">
+                <span class="rule-dot"></span>Pelo menos 1 letra maiúscula
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reg-confirm">Confirmar senha</label>
+            <input
+              type="password"
+              id="reg-confirm"
+              data-testid="reg-confirm"
+              placeholder="Repita a senha"
+              autocomplete="new-password"
+            />
+          </div>
+          <button class="btn" id="btn-register" data-testid="btn-register">
+            Criar conta
+          </button>
+          <div
+            class="feedback"
+            id="reg-feedback"
+            data-testid="reg-feedback"
+            role="alert"
+          ></div>
+        </div>
+      </div>
+      <!-- /card -->
+
+      <!-- ===== DASHBOARD ===== -->
+      <div class="card" id="dashboard" data-testid="dashboard">
+        <div class="dash-icon">✅</div>
+        <h2>Bem-vindo(a)!</h2>
+        <p id="dash-email" data-testid="dash-email"></p>
+        <p style="margin-bottom: 24px">
+          Login realizado com sucesso. Você está autenticado.
+        </p>
+        <button class="btn-outline" id="btn-logout" data-testid="btn-logout">
+          Sair da conta
+        </button>
+      </div>
+    </div>
+    <!-- /shell -->
+
+    <script>
+      /* -------- estado simples em memória -------- */
+      const store = {
+        users: [], // { email, password }
+        session: null, // email do usuário logado
+      };
+
+      /* -------- utilitários -------- */
+      const $ = (id) => document.getElementById(id);
+
+      function showFeedback(elId, message, type) {
+        const el = $(elId);
+        el.textContent = message;
+        el.className = `feedback show ${type}`;
+      }
+      function hideFeedback(elId) {
+        const el = $(elId);
+        el.className = "feedback";
+        el.textContent = "";
+      }
+
+      function validatePassword(pwd) {
+        return {
+          length: pwd.length >= 8,
+          number: /\d/.test(pwd),
+          upper: /[A-Z]/.test(pwd),
+        };
+      }
+
+      /* -------- tabs -------- */
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tab = btn.dataset.tab;
+          document.querySelectorAll(".tab-btn").forEach((b) => {
+            b.classList.toggle("active", b.dataset.tab === tab);
+            b.setAttribute("aria-selected", b.dataset.tab === tab);
+          });
+          document.querySelectorAll(".form-panel").forEach((p) => {
+            p.classList.toggle("active", p.id === `panel-${tab}`);
+          });
+          hideFeedback("login-feedback");
+          hideFeedback("reg-feedback");
+        });
+      });
+
+      /* -------- validação em tempo real da senha -------- */
+      $("reg-password").addEventListener("input", () => {
+        const v = validatePassword($("reg-password").value);
+        $("rule-len").classList.toggle("ok", v.length);
+        $("rule-num").classList.toggle("ok", v.number);
+        $("rule-upper").classList.toggle("ok", v.upper);
+      });
+
+      /* -------- cadastro -------- */
+      $("btn-register").addEventListener("click", () => {
+        const email = $("reg-email").value.trim();
+        const password = $("reg-password").value;
+        const confirm = $("reg-confirm").value;
+
+        if (!email || !password || !confirm) {
+          showFeedback("reg-feedback", "Preencha todos os campos.", "error");
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showFeedback("reg-feedback", "E-mail inválido.", "error");
+          return;
+        }
+        const v = validatePassword(password);
+        if (!v.length || !v.number || !v.upper) {
+          showFeedback(
+            "reg-feedback",
+            "A senha não atende aos requisitos.",
+            "error",
+          );
+          return;
+        }
+        if (password !== confirm) {
+          showFeedback("reg-feedback", "As senhas não coincidem.", "error");
+          return;
+        }
+        if (store.users.find((u) => u.email === email)) {
+          showFeedback(
+            "reg-feedback",
+            "Este e-mail já está cadastrado.",
+            "error",
+          );
+          return;
+        }
+
+        store.users.push({ email, password });
+        showFeedback(
+          "reg-feedback",
+          "Conta criada! Faça login para continuar.",
+          "success",
+        );
+
+        // limpa campos
+        $("reg-email").value = "";
+        $("reg-password").value = "";
+        $("reg-confirm").value = "";
+        ["rule-len", "rule-num", "rule-upper"].forEach((r) =>
+          $(r).classList.remove("ok"),
+        );
+      });
+
+      /* -------- login -------- */
+      $("btn-login").addEventListener("click", () => {
+        const email = $("login-email").value.trim();
+        const password = $("login-password").value;
+
+        if (!email || !password) {
+          showFeedback("login-feedback", "Preencha todos os campos.", "error");
+          return;
+        }
+        const user = store.users.find(
+          (u) => u.email === email && u.password === password,
+        );
+        if (!user) {
+          showFeedback(
+            "login-feedback",
+            "E-mail ou senha incorretos.",
+            "error",
+          );
+          return;
+        }
+
+        store.session = email;
+        $("auth-card").style.display = "none";
+        $("dashboard").classList.add("show");
+        $("dash-email").textContent = `Logado como: ${email}`;
+      });
+
+      /* -------- logout -------- */
+      $("btn-logout").addEventListener("click", () => {
+        store.session = null;
+        $("auth-card").style.display = "";
+        $("dashboard").classList.remove("show");
+        $("login-email").value = "";
+        $("login-password").value = "";
+        hideFeedback("login-feedback");
+      });
+    </script>
+  </body>
+</html>
